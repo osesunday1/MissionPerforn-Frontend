@@ -32,7 +32,7 @@ const Navbar = () => {
         {/* Desktop Menu */}
         <nav className="hidden md:flex gap-6 items-center text-secondary">
           <Link to="/view-task" className="hover:text-secondary-100">View Tasks</Link>
-         <Link to="/add-task" className="hover:text-secondary-100">Add Task</Link>
+          {userID && (<Link to="/add-task" className="hover:text-secondary-100">Add Task</Link>)}
      
           {userID ? (
             <button
