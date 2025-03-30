@@ -8,36 +8,52 @@ export const AuthProvider = ({ children }) => {
   const [userToken, setUserToken] = useState(localStorage.getItem('token'));
   const [trigger, setTrigger] = useState(0);
 
-  // 🔄 Fetch user data using useFetch
   const apiUrl = import.meta.env.VITE_BACKEND_URL;
-  const { data: userData, loading, error } = useFetch(userID ? `${apiUrl}/user/${userID}` : null, trigger);
 
+  // Fetch user data from backend using custom hook
+  const {
+    data: userData,
+    loading,
+    error,
+    refetch: refetchUserData // Exposed for manual triggering
+  } = useFetch(userID ? `${apiUrl}/users/${userID}` : null, trigger);
 
-
-  // 🔐 Login: Save ID and refetch user
-  const login = (token,user) => {
+  // Login: Save user ID and token
+  const login = (user, token) => {
     localStorage.setItem('userID', user.id);
     localStorage.setItem('token', token);
     setUserID(user.id);
-    setUserToken(token)
+    setUserToken(token);
     setTrigger((prev) => prev + 1);
+    refetchUserData();
   };
 
-  // 🔓 Logout: Remove everything
+  // Logout: Clear auth state
   const logout = () => {
     localStorage.removeItem('userID');
     localStorage.removeItem('token');
     setUserID(null);
-    setTrigger((prev) => prev + 1); // Force re-fetch
+    setUserToken(null);
+    setTrigger((prev) => prev + 1);
   };
 
-
   return (
-    <AuthContext.Provider value={{ userID, userData, login, logout, loading, error, userToken }}>
+    <AuthContext.Provider
+      value={{
+        userID,
+        userToken,
+        userData,
+        login,
+        logout,
+        loading,
+        error,
+        refetchUserData
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );
 };
 
-// ✅ Custom Hook
+// Custom Hook to use AuthContext
 export const useAuth = () => useContext(AuthContext);
