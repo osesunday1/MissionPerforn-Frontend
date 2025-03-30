@@ -5,7 +5,7 @@ import { useAuth } from '../context/AuthContext';
 
 const Navbar = () => {
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const { userData, logout, userID } = useAuth();
+  const {logout, userID } = useAuth();
   const navigate = useNavigate();
 
   const logoutHandler = () => {
@@ -35,7 +35,6 @@ const Navbar = () => {
           {userID && (
             <>
             <Link to="/add-task" className="hover:text-secondary-100">Add Task</Link>
-            <Link to="/me" className="hover:text-secondary-100">User Info</Link>
             </>
           )}
           {userID ? (
@@ -63,9 +62,11 @@ const Navbar = () => {
             View Tasks
           </Link>
           {userID && (
+            <>
             <Link to="/add-task" onClick={() => setMobileMenuOpen(false)}>
               Add Task
             </Link>
+            </>
           )}
           {userID ? (
             <button
