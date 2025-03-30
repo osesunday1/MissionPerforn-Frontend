@@ -8,8 +8,6 @@ const Navbar = () => {
   const { userData, logout, userID } = useAuth();
   const navigate = useNavigate();
 
-  const isLoggedIn = userData || userID;
-
   const logoutHandler = () => {
     logout();
     navigate('/');
@@ -34,13 +32,12 @@ const Navbar = () => {
         {/* Desktop Menu */}
         <nav className="hidden md:flex gap-6 items-center text-secondary">
           <Link to="/view-task" className="hover:text-secondary-100">View Tasks</Link>
-          {isLoggedIn && (
-            <Link to="/add-task" className="hover:text-secondary-100">Add Task</Link>
-          )}
+         <Link to="/add-task" className="hover:text-secondary-100">Add Task</Link>
+     
           {userID ? (
             <button
               onClick={logoutHandler}
-              className="bg-red-500 text-white px-5 py-2 rounded-full hover:bg-red-600 cursor-pointer"
+              className="bg-red-500 text-white px-5 py-2 rounded-full hover:bg-red-600"
             >
               Logout
             </button>
@@ -61,12 +58,12 @@ const Navbar = () => {
           <Link to="/view-task" onClick={() => setMobileMenuOpen(false)}>
             View Tasks
           </Link>
-          {userID && (
+          {userData && (
             <Link to="/add-task" onClick={() => setMobileMenuOpen(false)}>
               Add Task
             </Link>
           )}
-          {userID ? (
+          {userData ? (
             <button
               onClick={() => {
                 logoutHandler();
