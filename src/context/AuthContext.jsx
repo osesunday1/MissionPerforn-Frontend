@@ -12,8 +12,7 @@ export const AuthProvider = ({ children }) => {
   const apiUrl = import.meta.env.VITE_BACKEND_URL;
   const { data: userData, loading, error } = useFetch(userID ? `${apiUrl}/user/${userID}` : null, trigger);
 
-  console.log(userToken)
-  console.log(userID)
+
 
   // 🔐 Login: Save ID and refetch user
   const login = (token,user) => {
