@@ -8,6 +8,8 @@ const Navbar = () => {
   const { userData, logout, userID } = useAuth();
   const navigate = useNavigate();
 
+  const isLoggedIn = userData || userID;
+
   const logoutHandler = () => {
     logout();
     navigate('/');
@@ -32,7 +34,7 @@ const Navbar = () => {
         {/* Desktop Menu */}
         <nav className="hidden md:flex gap-6 items-center text-secondary">
           <Link to="/view-task" className="hover:text-secondary-100">View Tasks</Link>
-          {userID && (
+          {isLoggedIn && (
             <Link to="/add-task" className="hover:text-secondary-100">Add Task</Link>
           )}
           {userID ? (
